@@ -21,7 +21,7 @@ def get_lucky_num():
             if field not in request_data:
                 errors[field] = ["This field is required."]
 
-        year = request_data.get('year')
+        year = int(request_data.get('year'))
         if year is not None and (year < 1900 or year > 2023):
             errors['year'] = ["Invalid year, must be between 1900 and 2023."]
 

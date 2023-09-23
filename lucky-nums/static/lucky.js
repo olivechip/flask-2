@@ -15,19 +15,27 @@ function processForm(evt) {
         "color": $color.value
     }
 
-    console.log(data)
+    resetFields();
     callAPI(data);
+}
+
+// ** resetFields: clears all values and prepares for the next render
+
+function resetFields(){
+    $('form:input').val('');
+    $("#lucky-results").empty();
 }
 
 // ** callAPI: AJAX call to API, transition response to handleResponse
 
 async function callAPI(data){
     try {
-        const resp = await axios.post('http://localhost/api/get-lucky-num', data);
+        const resp = await axios.post('/api/get-lucky-num', data);
         console.log(resp);
         handleResponse(resp);
     } catch (error){
         console.log("Error", error);
+        console.error(error.response.data);
     }
 }
 
@@ -38,8 +46,8 @@ function handleResponse(resp) {
     const luckyMessage = `Your lucky number is ${resp.data.num.num}. ${resp.data.num.fact}`;
     const yearMessage = `Your birth year ${resp.data.year.year} fact is ${resp.data.year.fact}`;
 
-    $results.append("<p>" + luckyMessage + "</p>");
-    $results.append("<p>" + yearMessage + "</p>");
+    $results.append(luckyMessage);
+    $results.append(yearMessage);
 }
 
 
